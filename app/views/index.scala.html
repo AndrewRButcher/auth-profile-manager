@@ -1,5 +1,5 @@
 @*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 @import config.FrontendAppConfig
 
-@(appConfig: FrontendAppConfig)(implicit request: Request[_], messages: Messages)
+@(appConfig: FrontendAppConfig, environments: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
     title = messages("index.title"),
@@ -25,5 +25,9 @@
 
     @components.heading("index.heading")
 
-    <p>@messages("index.guidance")</p>
+<p>@environments</p>
+
+
+
+    @components.button("site.continue")
 }

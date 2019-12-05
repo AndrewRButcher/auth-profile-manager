@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,17 +17,24 @@
 package controllers
 
 import javax.inject.Inject
-
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-import config.FrontendAppConfig
-import views.html.index
+import config.{FrontendAppConfig, ManagerConfig}
+import viewmodels.RadioOption
+import views.html.selector
 
 class IndexController @Inject()(val appConfig: FrontendAppConfig,
-                                val messagesApi: MessagesApi) extends FrontendController with I18nSupport {
+                                val messagesApi: MessagesApi,
+                                val profilesConfig: ManagerConfig) extends FrontendController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = Action { implicit request =>
-    Ok(index(appConfig))
+    val testEnvironments = profilesConfig.getTestEnvironments
+    val profiles = profilesConfig.getProfiles
+    val radioOptions = testEnvironments.map(
+      testEnvironment => RadioOption(testEnvironment.name, testEnvironment.name)
+    )
+    Ok(selector(appConfig ,testEnvironments, profiles))
   }
+
 }
